@@ -1,0 +1,14 @@
+<% if(summary.length !== 0) { %>
+	<!--
+	<p><b>* Check the summary below:</b></p>
+	-->
+
+	<blockquote>
+		<% _.each(summary, function(sentence){ %>
+			<p><%= sentence %></p>
+		<% }); %>
+	</blockquote>
+
+<% } else { %>
+	<p><b>* summary will be displayed here</b></p>
+<% } %>

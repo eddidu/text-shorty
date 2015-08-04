@@ -1,0 +1,12 @@
+# python
+.Python
+!/Python/**
+*.pyc
+venv
+
+# npm, bower
+node_modules/
+
+# commons
+*.swp
+*.log
