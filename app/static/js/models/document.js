@@ -10,7 +10,7 @@ define([
         },
 
         url: function() {
-            return '/api/summarizer';
+            return '/text-shorty/api/summarizer';
         },        
 
         defaults: {
