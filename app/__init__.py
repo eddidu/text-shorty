@@ -10,7 +10,7 @@ def create_app(object_name):
 
 	APP_ROOT = '/text-shorty'
 
-	app = Flask(__name__, static_folder='static', template_folder='static/templates')
+	app = Flask(__name__, static_url_path='/text-shorty/static', static_folder='static', template_folder='static/templates')
 
 	@app.route('/', methods=['GET'])
 	def redirect_to_main():

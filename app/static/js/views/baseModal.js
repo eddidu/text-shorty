@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!../../templates/baseModal.html'
+    'text!templates/baseModal.html'
 ], function($, _, Backbone, baseModalHtml) {  
     
 'use strict';

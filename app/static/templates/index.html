@@ -8,9 +8,9 @@
     <title>Text Shorty</title>
 
     <!-- Bootstrap -->
-    <link href="/static/public/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">  
+    <link href="/text-shorty/static/public/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">  
 
-    <link href="/static/css/app.css" rel="stylesheet">
+    <link href="/text-shorty/static/css/app.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,41 +20,6 @@
     <![endif]-->
   </head>
   <body>
-
-    <div class="container">
-      <div class="app-header">
-        <h2 class="app-title">Text Shorty</h2>
-        <p class="lead app-description">
-          <b>Text Shorty</b> is an automated text summarizer that extracts key phrases from a document.
-          <br>
-          Current version only works for <b>English</b> texts.  <a>Learn more</a>    
-        </p>
-      </div>     
-      <div class="row">
-        <form role="form" id="contact-form" class="contact-form">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <textarea class="form-control textarea" rows="3" name="document" id="document" 
-                  placeholder="Copy and paste a document here"></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <button id="btn-summerize" type="button" class="btn main-btn pull-right">Summarize</button>
-            </div>
-          </div>
-        </form>
-        <div class="row">
-          <div class="col-md-12">
-            <hr class="colorgraph">
-            <div id="summary"></div>
-          </div>
-        </div>            
-      </div>  
-    </div>
-
-    <script data-main="/static/js/main.js" src="/static/public/requirejs/require.js"></script>
+    <script data-main="/text-shorty/static/js/main.js" src="/text-shorty/static/public/requirejs/require.js"></script>
   </body>
 </html>

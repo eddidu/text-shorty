@@ -1,64 +1,61 @@
 define([
-    'jquery',
-  	'backbone',
-    'models/document',
-    'views/document',
-    'views/baseModal'
-], function($, Backbone, Document, DocumentView, BaseModalView) {  
-    
-    'use strict';
+  'jquery', 'underscore', 'backbone', 
+  'text!templates/app.html',
+  'js/views/baseModal'
+], function($, _, Backbone, AppHtml, BaseModalView) {  
 
-    var AppView = Backbone.View.extend({
+  'use strict';
 
-        el: '.container',
+  var AppView = Backbone.View.extend({
 
-      	events: {
-      		  'click #btn-summerize': 'summarize',
-            'click p.lead a': 'showDetail'
-      	},      	
+    className: 'container',
 
-      	initialize: function() {
-        		this.$input = this.$('#document');
+    template: _.template(AppHtml),
 
-            var documentView = new DocumentView({model: Document});
-            documentView.render();
+    events: {
 
-            return this;
-      	},
+    },
 
-      	summarize: function(event) {
+    initialize: function() {
 
-            var attrs = {
-                text: this.$input.val().trim()
-            };
+      this.subviews = [];
+      this.render();
 
-            Document.save(attrs);
+    },
 
-            return this;
-      	},
+    render: function() {
 
-        showDetail: function(event) {
+      var $el = this.$el;
 
-            var ModalContent = Backbone.View.extend({
-                render: function() {
-                    var content = [
-                      'This summarization tool is based on the <a href=#>Lexrank</a> algorithm',
-                      'which uses statistical aproach to pick sentences that best represent the given document.',
-                      'This algorithm relies heavily on how the document is tokenized, to sentences and to words.',
-                      'NLTK package is used for the tokenization, but still need sophiscated tokenization steps to improve accuracy.', 
-                      '<br><br>For contribution, check the <a href=#>git repository</a>'                    
-                    ].join(' ');
-                    this.$el.html(content);
-                }
-            });
+      $el.html(this.template());
 
-            var detailModal = new BaseModalView({
-                title: 'About Text Shorty',
-                content: new ModalContent()
-            });
-            detailModal.open();
-        }
-    });
+    },
 
-    return AppView;
+    addSubview: function(view) {
+
+      var $el = this.$el;
+
+      if(!!view && view.$el) {
+
+        view.render();
+        $el.append(view.el);
+
+      }
+
+    },
+
+    addSubviews: function(views) {
+
+      var self = this;
+
+      _.each(views, function(view) {
+        self.addSubview(view);
+      });
+
+    }
+
+  });
+
+  return AppView;
+
 });

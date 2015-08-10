@@ -7,8 +7,8 @@ main = Blueprint('main', __name__)
 def index():
 	return render_template('index.html')
 
-@main.route('/api/summarizer', methods=['POST'])
-def summarize():
+@main.route('/api/summary', methods=['POST'])
+def getSummary():
 
 	if not request.json or 'text' not in request.json or len(request.json['text'].strip()) == 0:
 		abort(400)
@@ -24,6 +24,14 @@ def summarize():
 	summarizer = lexrank.LexrankSummarizer()
 	summary = summarizer.summarize(text, length)
 
-	result = {'summary': summary}
+	result = {'result': summary}
 
 	return Response(json.dumps(result, ensure_ascii=False), mimetype='application/json')
+
+@main.route('/api/keywords', methods=['POST'])
+def getKeywords():
+
+	if not request.json or 'text' not in request.json or len(request.json['text'].strip()) == 0:
+		abort(400)
+
+	return 'not implemented yet'

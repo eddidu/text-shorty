@@ -1,0 +1,35 @@
+{
+  "name": "text_shorty",
+  "version": "1.0.0",
+  "private": true,
+  "description": "an automated text summarizer",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddidu/text-shorty.git"
+  },
+  "keywords": [
+    "lexrank",
+    "flask",
+    "backbone"
+  ],
+  "author": "peter",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/eddidu/text-shorty/issues"
+  },
+  "homepage": "https://github.com/eddidu/text-shorty#readme",
+  "dependencies": {
+    "chai": "^3.2.0",
+    "chai-jquery": "^2.0.0",
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0",
+    "squirejs": "^0.2.1"
+  }
+}
