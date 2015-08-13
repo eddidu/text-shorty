@@ -1,8 +1,7 @@
 define([
-  'squire', 'sinon', 
-  'underscore', 'jquery', 'backbone',
+  'jquery', 'bootstrap', 'backbone',
   'js/views/inputArea'
-], function(Squire, Sinon, _, $, Backbone, InputAreaView) {
+], function($, Bootstrap, Backbone, InputAreaView) {
   
   describe('inputArea views', function() {
 
@@ -16,6 +15,10 @@ define([
     });
 
     afterEach(function() {
+
+      // clear up
+      $('.modal').modal('hide');
+      $('.modal').remove();      
 
       this.view.remove();
 
@@ -62,17 +65,30 @@ define([
     describe('when submit button is clicked', function() {
 
       it('should save the data through model', function() {
-
         var $el = this.view.$el;
+
         $el.find('textarea').val('some texts');
         $el.find('input[name="option"]').val('keywords');
 
-        var stub = Sinon.stub(this.model, 'save');
+        var stub = new sinon.stub(this.model, 'save');
 
         $el.find('button:button').click();
 
         stub.should.have.been.calledOnce;
         stub.should.have.been.calledWith({text: 'some texts', option: 'keywords'});
+      });
+
+      it('should show error modal when validation fails', function(done) {
+        var $el = this.view.$el;
+
+        this.model.trigger('invalid', this.model, 'error msg');
+
+        setTimeout(function() {
+          $('.modal').should.be.visible;
+          $('.modal-body').should.have.text('error msg');
+
+          done();
+        }, 300);
 
       });
 

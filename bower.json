@@ -1,7 +1,8 @@
 {
   "name": "text-shorty",
   "version": "1.0.0",
-  "description": "an automated text summerizer",
+  "description": "an automated text summarizer",
+  "private": true,
   "main": "app/static/js/main.js",
   "authors": [
     "Peter"

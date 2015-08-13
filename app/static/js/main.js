@@ -1,38 +1,14 @@
-'use strict';
-
-require.config({
-  baseUrl: 'static',
-  paths: {
-    'jquery': 'public/jquery/dist/jquery',
-    'underscore': 'public/underscore/underscore',
-    'backbone': 'public/backbone/backbone',
-    'text': 'public/requirejs-text/text',
-    'bootstrap': 'public/bootstrap/dist/js/bootstrap.min',
-  },
-  shim: {
-    underscore: {
-      exports: '_'
-    },
-      backbone: {
-      exports: 'Backbone',
-      deps: ['jquery', 'underscore']
-    },
-      bootstrap: {
-        deps: ['jquery']
-      },
-    }
-  //deps: ['jquery', 'underscore', 'backbone', 'text', 'bootstrap']
-});
-
 require([
-  'bootstrap',
   'jquery',
+  'bootstrap',
   'backbone',
   'js/views/app',
   'js/views/inputArea',
   'js/views/resultArea',
   'js/models/document'
-], function(Bootstrap, $, Backbone, AppView, InputAreaView, ResultAreaView, Document) {
+], function($, Bootstrap, Backbone, AppView, InputAreaView, ResultAreaView, Document) {
+  'use strict';
+
   // Backbone.history.start();
 
   // initialize the application view

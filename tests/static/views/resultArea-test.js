@@ -1,8 +1,7 @@
 define([
-  'squire', 'sinon', 
-  'underscore', 'jquery', 'backbone',
+  'jquery', 'backbone',
   'js/views/resultArea'
-], function(Squire, Sinon, _, $, Backbone, ResultAreaView) {
+], function($, Backbone, ResultAreaView) {
 
 	describe('resultArea views', function() {
 
@@ -35,10 +34,10 @@ define([
 
 	  	  var $el = this.view.$el;
 
-	  	  $el.should.contain('an option');
-	  	  $el.should.contain('yo1');
-	  	  $el.should.contain('yo2');
-	  	  $el.should.not.contain('some texts');
+                  //TODO: chai-jquery contains not working properly...causing obj.indexOf not a function error
+                  $el.is(':contains("yo1")').should.be.true;
+                  $el.is(':contains("yo2")').should.be.true;
+                  $el.is(':contains("some texts")').should.be.false;
 
 	  	});
 

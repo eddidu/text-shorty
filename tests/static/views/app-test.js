@@ -1,8 +1,7 @@
 define([
-  'squire', 'sinon', 
   'jquery', 'backbone',
   'js/views/app'
-], function(Squire, Sinon, $, Backbone, AppView) {
+], function($, Backbone, AppView) {
   
   describe('appView views', function() {
 
@@ -62,10 +61,6 @@ define([
   	  	$el.find('.view2').should.have.text('this is view2');
 
   	  });
-
-  	  xit('should show app detail dialog when "a" link inside description is clikced', function() {
-
-  	  }); 
 
   	});
 
