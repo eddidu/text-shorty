@@ -36,6 +36,11 @@ class LexrankSummarizer(object):
                     cosine_matrix[row][col] = 1
                     continue
 
+                # sentences with only few words are skipped since 
+                # they tend to get higher scores
+                if len(w1) < 3 or len(w2) < 3:
+                    continue 
+
                 common_words = set(w1) & set(w2)
                 # no common words means numerator = 0
                 if len(common_words) == 0:
@@ -81,13 +86,22 @@ class LexrankSummarizer(object):
 
         return current_p  
 
-    def pick_best_sentences(self, sentences, ratings, length):
+    def pick_best_sentences(self, sentences, ratings, numSentences):
         """Return sentences that best represents the document"""
         n = len(sentences)
+
+        if numSentences == 0:
+            raise ValueError("requested number of sentences shouldn't be zero")
+
+        if numSentences >= n:
+            raise ValueError(
+                "requested number of sentences {} shouldn't be >= candidates {}".format(numSentences, n)
+            )
+
         # sort by rank
         ranked_sentences = sorted(zip(xrange(n), ratings, sentences), key=operator.itemgetter(1), reverse=True)    
         # sort by the order of the original sentences
-        best_sentences = sorted(ranked_sentences[0:length], key=operator.itemgetter(0))
+        best_sentences = sorted(ranked_sentences[0:numSentences], key=operator.itemgetter(0))
 
         return [s[2].text for s in best_sentences]
 

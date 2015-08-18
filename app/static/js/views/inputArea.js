@@ -25,13 +25,15 @@ define([
       var $el = this.$el;
 
       $el.html(this.template());
+
+      $el.find('input[name="option"][value="summary"]').prop('checked', true);
     },
 
     submit: function(event) {
       var $el = this.$el;
 
       var textInput = $el.find('textarea').val();
-      var option = $el.find('input[name="option"]').val();
+      var option = $el.find('input[name="option"]:checked').val();
       var data = {text: textInput, option: option};
 
       this.model.save(data);

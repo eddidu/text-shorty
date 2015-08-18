@@ -1,5 +1,6 @@
 from flask import Blueprint, request, Response, abort, url_for, redirect, json, render_template
 from app.summarizer.summaryTool import LexrankSummarizer
+from app.summarizer.keywordsTool import KeywordsExtractor
 from app.summarizer.document import Document
 
 main = Blueprint('main', __name__)
@@ -36,4 +37,11 @@ def getKeywords():
     if not request.json or 'text' not in request.json or len(request.json['text'].strip()) == 0:
         abort(400)
 
-    return 'not implemented yet'
+    text = request.json['text']       
+
+    document = Document(text)
+    keywords = KeywordsExtractor().extract(document)
+
+    result = {'result': keywords}
+
+    return Response(json.dumps(result, ensure_ascii=False), mimetype='application/json')

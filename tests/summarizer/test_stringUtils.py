@@ -80,7 +80,7 @@ class StringUtilsTest(unittest.TestCase):
 
         expected = (
             "A first line.",
-            "Next line is, inside non ascii double quotes."
+            "Next line is, \"inside non ascii double quotes.\""
         )
 
         result = stringUtils.sent_tokenize(input_text)
@@ -94,18 +94,40 @@ class StringUtilsTest(unittest.TestCase):
         """
 
         expected = (
-            "how", 
-            "do",
-            "you",
             "choose",
-            "the",
             "articles",
             "listed",
-            "on",
-            "the",
-            "site",
-            "?"
+            "site"
         )
+
+        result = stringUtils.word_tokenize(input_text)
+
+        self.assertTupleEqual(expected, result)
+
+    def test_word_tokenize(self):
+        """Does it successfully tokenize words of a regular sentence?"""        
+        input_text = """
+            How do you choose the article that's listed on the site.
+        """
+
+        expected = (
+            "choose",
+            "article",
+            "listed",
+            "site"
+        )
+
+        result = stringUtils.word_tokenize(input_text)
+
+        self.assertTupleEqual(expected, result)
+
+    def test_word_tokenize_with_only_stopwords(self):
+        """Does it successfully tokenize words of a sentence that contains only stopwords?"""        
+        input_text = """
+            How is the that? 
+        """
+
+        expected = ()
 
         result = stringUtils.word_tokenize(input_text)
 

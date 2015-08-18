@@ -11,6 +11,64 @@ class KeywordsExtractorTest(unittest.TestCase):
     def setUp(self):
         self.extractor = KeywordsExtractor()
 
+    def test_pick_keywords(self):
+        """Does it successfully pick keywords given ratings"""
+
+        input_ratings = {
+            "Yo": 3,
+            "this should't be": 0.1,
+            "another non-keyword": 0.2,
+            "Yeah": 2,
+            "Last keyword": 2
+        }
+
+        expected = [
+            "Yo",
+            "Yeah",
+            "Last keyword"    
+        ]
+
+        result = self.extractor.pick_keywords(input_ratings, 3)
+
+        self.assertListEqual(sorted(expected), sorted(result))
+
+
+    def test_pick_keywords_with_request_zero_keywords(self):
+        """Does it successfully raise ValueError when 0 keywords are requested"""
+
+        input_ratings = {
+            "Yo": 3,
+            "this should't be": 0.1,
+            "another non-keyword": 0.2,
+            "Yeah": 2,
+            "Last keyword": 2
+        }
+
+        input_requested_numKeywords = 0
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.extractor.pick_keywords(input_ratings, input_requested_numKeywords)
+        )  
+
+    def test_pick_keywords_with_request_more_keywords(self):
+        """Does it successfully raise ValueError when requested keywords are greater than the number of candiates"""
+
+        input_ratings = {
+            "Yo": 3,
+            "this should't be": 0.1,
+            "another non-keyword": 0.2,
+            "Yeah": 2,
+            "Last keyword": 2
+        }
+
+        input_requested_numKeywords = len(input_ratings) + 1
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.extractor.pick_keywords(input_ratings, input_requested_numKeywords)
+        )              
+
     def test_extract(self):
         """Does it successfully extract keywords from a document""" 
 

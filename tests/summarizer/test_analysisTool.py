@@ -10,7 +10,7 @@ class AnalysisToolTest(unittest.TestCase):
         """Does it successfully compute tf for a given sentence?"""
         input_item = Sentence("I never stop at the stop sign")
 
-        expected = {"i": 1, "never": 1, "stop": 2, "at": 1, "the": 1, "sign": 1}
+        expected = {"never": 1, "stop": 2, "sign": 1}
 
         result = analysisTool.compute_tf(input_item)
 
@@ -22,10 +22,7 @@ class AnalysisToolTest(unittest.TestCase):
 
         result = analysisTool.compute_idf(input_item.sentences)
 
-        expected_keys = ["this", "is", "a", "sample", "another", "example"]
+        expected_keys = ["sample", "another", "example"]
 
         for key in expected_keys:
             self.assertIn(key, result.keys())
-
-        self.assertEqual(0, result["this"])
-        self.assertEqual(0, result["is"])

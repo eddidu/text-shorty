@@ -64,6 +64,42 @@ class LexrankSummarizerTest(unittest.TestCase):
         result = self.summarizer.pick_best_sentences(input_sentences, input_ratings, input_length)
         self.assertListEqual(expected, result)
 
+    def test_pick_best_sentences_with_request_zero_sentences(self):
+        """Does it successfully raise ValueError when 0 sentences are requested?"""        
+        input_sentences = (
+            Sentence("first sentence"),
+            Sentence("second sentence"),
+            Sentence("third sentence"),
+            Sentence("fourth sentence")
+        )
+
+        input_ratings = [0.01, 0.015, 0.02, 0.005]
+
+        input_requested_numSentences = 0
+
+        self.assertRaises(
+            ValueError, 
+            lambda: self.summarizer.pick_best_sentences(input_sentences, input_ratings, input_requested_numSentences)
+        )
+
+    def test_pick_best_sentences_with_request_more_sentences(self):
+        """Does it successfully raise ValueError when requested sentences are greater than available sentences?"""        
+        input_sentences = (
+            Sentence("first sentence"),
+            Sentence("second sentence"),
+            Sentence("third sentence"),
+            Sentence("fourth sentence")
+        )
+
+        input_ratings = [0.01, 0.015, 0.02, 0.005]
+
+        input_requested_numSentences = len(input_sentences) + 1
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.summarizer.pick_best_sentences(input_sentences, input_ratings, input_requested_numSentences)
+        )     
+
     def test_summarize(self):
         """Does it successfully summarize given document?"""
 

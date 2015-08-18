@@ -31,12 +31,14 @@ def sent_tokenize(text):
     text = text.replace(u"\u2019", "'")
 
     # double quotes
-    text = text.replace(u"\u201c", "")
-    text = text.replace(u"\u201d", "")
+    text = text.replace(u"\u201c", "\"")
+    text = text.replace(u"\u201d", "\"")
 
     return tuple(token.strip() for token in tokenize.sent_tokenize(text))
 
 def word_tokenize(text):
     """Return tokenized words"""    
     tokens = tokenize.word_tokenize(text.lower())
-    return tuple(tokens)
+    stopwords = set(corpus.stopwords.words("english"))
+
+    return tuple([t for t in tokens if t not in stopwords and t.isalnum()])
