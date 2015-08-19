@@ -10,18 +10,18 @@ from app.summarizer import stringUtils
 class KeywordsExtractor(object):
     """Extracts keywords from a document"""
 
-    def compute_tf(self, sentences):
+    def compute_tf(self, token_vectors):
         """Return the tf for entire sentences"""
         tf = collections.Counter()
-        for sentence in sentences:
-            tf += analysisTool.compute_tf(sentence)
+        for v in token_vectors:
+            tf += analysisTool.compute_tf(v)
 
         return tf    
 
-    def compute_ratings(self, sentences):
+    def compute_ratings(self, token_vectors):
         """Return the ratings of words"""
-        tf = self.compute_tf(sentences)
-        idf = analysisTool.compute_idf(sentences)
+        tf = self.compute_tf(token_vectors)
+        idf = analysisTool.compute_idf(token_vectors)
 
         rating = {}
         for word in tf:
@@ -47,7 +47,11 @@ class KeywordsExtractor(object):
 
     def extract(self, document):
         """Return keywords"""
-        ratings = self.compute_ratings(document.sentences)
+        # tokenize text
+        sentences = stringUtils.sent_tokenize(document)
+        tokens = [stringUtils.word_tokenize(s) for s in sentences]
+
+        ratings = self.compute_ratings(tokens)
         result = self.pick_keywords(ratings, 5)
 
         return tuple(result)

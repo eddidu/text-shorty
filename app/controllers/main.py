@@ -1,7 +1,6 @@
 from flask import Blueprint, request, Response, abort, url_for, redirect, json, render_template
 from app.summarizer.summaryTool import LexrankSummarizer
 from app.summarizer.keywordsTool import KeywordsExtractor
-from app.summarizer.document import Document
 
 main = Blueprint('main', __name__)
 
@@ -23,8 +22,7 @@ def getSummary():
     else:
         length = 5
 
-    document = Document(text)
-    summary = LexrankSummarizer().summarize(document, length)
+    summary = LexrankSummarizer().summarize(text, length)
 
     result = {'result': summary}
 
@@ -39,8 +37,7 @@ def getKeywords():
 
     text = request.json['text']       
 
-    document = Document(text)
-    keywords = KeywordsExtractor().extract(document)
+    keywords = KeywordsExtractor().extract(text)
 
     result = {'result': keywords}
 

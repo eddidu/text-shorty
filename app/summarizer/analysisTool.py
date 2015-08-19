@@ -1,21 +1,19 @@
 import math
 import collections
 
-from app.summarizer.document import Document, Sentence
+def compute_tf(tokens):
+    """Return tf of the given *tokens*."""
+    return collections.Counter(tokens)
 
-def compute_tf(sentence):
-    """Return tf of the given *sentence*."""
-    return collections.Counter(sentence.words)
-
-def compute_idf(sentences):
-    """Return idf of the given *sentences*."""
-    n = len(sentences)
+def compute_idf(token_vectors):
+    """Return idf of the given *token vectors*."""
+    n = len(token_vectors)
 
     idf = {}
-    for s1 in sentences:
-        for word in s1.words:
+    for v1 in token_vectors:
+        for word in v1:
             if word not in idf:
-                n_d = sum(1 for s2 in sentences if word in s2.words)
+                n_d = sum(1 for v2 in token_vectors if word in v2)
                 idf[word] = math.log(n / n_d)
 
     return idf

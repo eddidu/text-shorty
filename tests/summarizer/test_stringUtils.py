@@ -8,10 +8,10 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_sent_tokenize(self):
         """Does it successfully tokenize sentences?"""
-        input_text = """
-            A first line.
-            Next line.
-        """
+        input_text = (
+            "A first line.\n"
+            "Next line."
+        )
 
         expected = (
             "A first line.",
@@ -24,10 +24,11 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_sent_tokenize_string_with_tabs(self):
         """Does it successfully tokenize sentences containing tabs?"""        
-        input_text = """
-            A first \t\tline. \t\t
-            Next line.
-        """
+        input_text = (
+            "A first \t\tline. \t\t\n"
+            "\t\t\n"
+            "Next line."
+        )
 
         expected = (
             "A first line.",
@@ -40,10 +41,11 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_sent_tokenize_string_with_newlines(self):
         """Does it successfully tokenize sentences containing newlines?"""        
-        input_text = """
-            A first \n\nline. \n\n
-            Next line.
-        """
+        input_text = (
+            "A first \n\nline. \n\n"
+            "\n\n"
+            "Next line."
+        )
 
         expected = (
             "A first line.",
@@ -56,10 +58,10 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_sent_tokenize_string_with_single_quotation_marks(self):
         """Does it successfully tokenize sentence containing ‘ and ’ ?"""        
-        input_text = """
-            A first line.
-            I’ve next line here.
-        """
+        input_text = (
+            """A first line.
+            I’ve next line here."""
+        )
 
         expected = (
             "A first line.",
@@ -72,11 +74,11 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_sent_tokenize_string_with_double_qutation_marks(self):
         """Does it successfully tokenize sentences containing “ and ” ?"""    
-        input_text = """
-            A first line.
-            Next line is, 
-            “inside non ascii double quotes.”
-        """
+        input_text = (
+            "A first line.\n"
+            "Next line is, "
+            "“inside non ascii double quotes.”"
+        )
 
         expected = (
             "A first line.",
@@ -89,26 +91,22 @@ class StringUtilsTest(unittest.TestCase):
 
     def test_word_tokenize(self):
         """Does it successfully tokenize words?"""        
-        input_text = """
-            How do you choose the articles listed on the site?
-        """
+        input_text = "This is a sample."
 
         expected = (
-            "choose",
-            "articles",
-            "listed",
-            "site"
+            "this",
+            "is",
+            "a",
+            "sample"
         )
 
-        result = stringUtils.word_tokenize(input_text)
+        result = stringUtils.word_tokenize(input_text, filter_stopwords=False, stem=False)
 
-        self.assertTupleEqual(expected, result)
+        self.assertTupleEqual(expected, result)      
 
-    def test_word_tokenize(self):
-        """Does it successfully tokenize words of a regular sentence?"""        
-        input_text = """
-            How do you choose the article that's listed on the site.
-        """
+    def test_word_tokenize_with_stopwords_filter(self):
+        """Does it successfully tokenize words with stopwords filter option?"""        
+        input_text = "How do you choose the article that's listed on the site."
 
         expected = (
             "choose",
@@ -117,18 +115,19 @@ class StringUtilsTest(unittest.TestCase):
             "site"
         )
 
-        result = stringUtils.word_tokenize(input_text)
+        result = stringUtils.word_tokenize(input_text, filter_stopwords=True)
 
         self.assertTupleEqual(expected, result)
 
-    def test_word_tokenize_with_only_stopwords(self):
-        """Does it successfully tokenize words of a sentence that contains only stopwords?"""        
-        input_text = """
-            How is the that? 
-        """
+    def test_word_tokenize_with_stem(self):
+        """Does it successfully tokenize words with stem option?"""        
+        input_text = "crying buying"
 
-        expected = ()
+        expected = (
+            "cry",
+            "buy"
+        )
 
-        result = stringUtils.word_tokenize(input_text)
+        result = stringUtils.word_tokenize(input_text, filter_stopwords=False, stem=True)
 
         self.assertTupleEqual(expected, result)

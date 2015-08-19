@@ -3,8 +3,8 @@ import math
 import operator
 import collections
 
-from app.summarizer.document import Document, Sentence
 from app.summarizer import analysisTool
+from app.summarizer import stringUtils
 
 class LexrankSummarizer(object):
     """Summarization tool using lexrank algorithm."""    
@@ -13,23 +13,22 @@ class LexrankSummarizer(object):
         self._treshold = 0.1
         self._epsilon = 0.001
 
-    def compute_cosine(self, sentences, treshold):
-        """Return n * n matrix that represents cosines of the sentences 
-            TODO: create tf * idf matrix for each term in every sentence where tf-idf[nth sentence][wordk] = tf * idf value
-            TODO: find a way to deal with a short sentence which likely to get more votes..
-        """       
-        n = len(sentences)
+    def compute_cosine(self, token_vectors, treshold):
+        """Return squre matrix of size len(token_vectors) 
+            with each element represents cosine similarities of corresponding sentences
+        """
+        n = len(token_vectors)
 
-        tf = [analysisTool.compute_tf(sentence) for sentence in sentences]
-        idf = analysisTool.compute_idf(sentences)
+        tf = [analysisTool.compute_tf(v) for v in token_vectors]
+        idf = analysisTool.compute_idf(token_vectors)
 
         cosine_matrix = numpy.zeros((n, n))
 
         for row in xrange(n):
             for col in xrange(row, n):
 
-                w1 = sentences[row].words
-                w2 = sentences[col].words
+                v1 = token_vectors[row]
+                v2 = token_vectors[col]
 
                 # diagonal values set to 1
                 if row == col:
@@ -38,25 +37,25 @@ class LexrankSummarizer(object):
 
                 # sentences with only few words are skipped since 
                 # they tend to get higher scores
-                if len(w1) < 3 or len(w2) < 3:
+                if len(v1) < 3 or len(v2) < 3:
                     continue 
 
-                common_words = set(w1) & set(w2)
+                common_words = set(v1) & set(v2)
                 # no common words means numerator = 0
                 if len(common_words) == 0:
                     continue
 
                 numerator = sum(tf[row][word] * tf[col][word] * pow(idf[word], 2) for word in common_words)
 
-                d1 = sum(pow(tf[row][word] * idf[word], 2) for word in w1)
-                d2 = sum(pow(tf[col][word] * idf[word], 2) for word in w2)
+                d1 = sum(pow(tf[row][word] * idf[word], 2) for word in v1)
+                d2 = sum(pow(tf[col][word] * idf[word], 2) for word in v2)
                 denominator = math.sqrt(d1) * math.sqrt(d2)
                 
                 if numerator > 0  and numerator / denominator > treshold:
                     cosine_matrix[row][col] = 1.0
                     cosine_matrix[col][row] = 1.0
 
-        return self.normalize_matrix(cosine_matrix)
+        return cosine_matrix
 
     def normalize_matrix(self, matrix):    
         """Return normalized matrix"""
@@ -103,13 +102,18 @@ class LexrankSummarizer(object):
         # sort by the order of the original sentences
         best_sentences = sorted(ranked_sentences[0:numSentences], key=operator.itemgetter(0))
 
-        return [s[2].text for s in best_sentences]
+        return [s[2] for s in best_sentences]
 
     def summarize(self, document, summaryLength):
         """Return a list of sentences"""
-        cosine_matrix = self.compute_cosine(document.sentences, self._treshold)
-        ratings = self.compute_ratings(cosine_matrix, self._epsilon)
+        # tokenize text
+        sentences = stringUtils.sent_tokenize(document)
+        tokens = [stringUtils.word_tokenize(s, stem=True) for s in sentences]
 
-        result = self.pick_best_sentences(document.sentences, ratings, summaryLength)
+        cosine_matrix = self.compute_cosine(tokens, self._treshold)
+        normalized_cosine_matrix = self.normalize_matrix(cosine_matrix)
+        ratings = self.compute_ratings(normalized_cosine_matrix, self._epsilon)
+
+        result = self.pick_best_sentences(sentences, ratings, summaryLength)
 
         return tuple(result)
