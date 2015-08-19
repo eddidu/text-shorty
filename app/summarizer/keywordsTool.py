@@ -2,7 +2,6 @@ import collections
 import operator
 import math
 
-from app.summarizer.document import Document, Sentence
 from app.summarizer import analysisTool
 from app.summarizer import stringUtils
 
@@ -51,6 +50,8 @@ class KeywordsExtractor(object):
         sentences = stringUtils.sent_tokenize(document)
         tokens = [stringUtils.word_tokenize(s) for s in sentences]
 
+        #TODO: need to pos tag words for picking only nouns
+        #TODO: need to stem tokens for improving accuracy
         ratings = self.compute_ratings(tokens)
         result = self.pick_keywords(ratings, 5)
 

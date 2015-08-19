@@ -1,7 +1,6 @@
 import unittest
 
 from app.summarizer import analysisTool
-from app.summarizer.document import Document, Sentence
 
 class AnalysisToolTest(unittest.TestCase):
     """Test for `AnalysisTool.py`."""

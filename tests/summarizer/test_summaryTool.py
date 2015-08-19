@@ -3,7 +3,6 @@
 import unittest
 import numpy
 
-from app.summarizer.document import Document, Sentence
 from app.summarizer.summaryTool import LexrankSummarizer
 
 class LexrankSummarizerTest(unittest.TestCase):
