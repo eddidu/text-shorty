@@ -22,7 +22,11 @@ module.exports = function(config) {
       'app/static/js/config.js'
     ],
 
-    reporters: ['mocha'],
+    reporters: ['mocha', 'junit'],
+    junitReporter: {
+      outputDir: 'test_results',
+      outputFile: 'test-results.xml'
+    },
 
     client: {
       mocha: {

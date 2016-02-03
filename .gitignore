@@ -10,3 +10,6 @@ node_modules/
 # commons
 *.swp
 *.log
+
+# test results
+test_results/
