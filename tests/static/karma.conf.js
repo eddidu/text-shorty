@@ -6,7 +6,7 @@ module.exports = function(config) {
 
     basePath: '../..',
 
-    frameworks: ['mocha', 'requirejs', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai'],
+    frameworks: ['mocha', 'requirejs', 'chai-jquery', 'jquery-2.1.0', 'chai-sinon'],
 
     files: [
       'tests/static/test-main.js',
